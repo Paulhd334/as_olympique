@@ -7,6 +7,7 @@ include __DIR__ . '/templates/header.php';
 <h2>Menu TD</h2>
 <ul>
     <li><a href="vuln/upload_vuln.php">Upload (vuln)</a></li>
+    <li><a href="secure/upload_secure.php">Upload (secure)</a></li>
     <li><a href="vuln/bonjour_vuln.php">Transmission GET (vuln)</a></li>
     <li><a href="vuln/connexion_vuln.php">Connexion (vuln)</a></li>
     <li><a href="vuln/commentaire_vuln.php">Commentaire (XSS vuln)</a></li>
