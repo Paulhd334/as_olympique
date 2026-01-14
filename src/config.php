@@ -3,7 +3,7 @@
 return (object)[
     'db' => (object)[
         'host' => 'localhost',
-       'port' => 8889, // Port MySQL MAMP
+       'port' => 3306, // Port MySQL MAMP
 
         'dbname' => 'as_olympique_db',
         'user' => 'root', // Compte spécifique pour l'appli

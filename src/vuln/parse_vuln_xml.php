@@ -1,29 +1,31 @@
 <?php
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// parse_vuln_xml.php
+// chemin ABSOLU sécurisé
+$xmlFile = __DIR__ . '../../../menu_vuln.xml';
 
-$xmlPath = __DIR__ . '/menu_vuln.xml';
-
-if (!file_exists($xmlPath)) {
-    die('Fichier XML introuvable : ' . $xmlPath);
+if (!file_exists($xmlFile)) {
+    die("❌ Fichier XML introuvable : $xmlFile");
 }
 
-$xml = file_get_contents($xmlPath);
-if ($xml === false || trim($xml) === '') {
-    die('XML vide ou illisible');
+$xml = file_get_contents($xmlFile);
+if ($xml === false) {
+    die("❌ Impossible de lire le fichier XML");
 }
 
 libxml_use_internal_errors(true);
 
 $dom = new DOMDocument();
+$dom->loadXML($xml, LIBXML_NOENT | LIBXML_DTDLOAD); // ⚠️ volontairement vulnérable XXE
 
-// Sécurisation XXE
-if (!$dom->loadXML($xml, LIBXML_NONET)) {
-    die('Erreur de parsing XML');
+echo "<pre>" . htmlspecialchars($dom->saveXML()) . "</pre>";
+
+if ($errors = libxml_get_errors()) {
+    echo "<pre>Erreurs XML:\n";
+    foreach ($errors as $e) {
+        echo $e->message;
+    }
+    echo "</pre>";
 }
-
-echo '<pre>';
-echo htmlspecialchars($dom->saveXML(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-echo '</pre>';
